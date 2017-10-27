@@ -1,9 +1,0 @@
-C:\git\CommandQueueTest\Publisher\src\Shared\bin\Debug\Shared.dll
-C:\git\CommandQueueTest\Publisher\src\Shared\bin\Debug\Shared.pdb
-C:\git\CommandQueueTest\Publisher\src\Shared\bin\Debug\NServiceBus.Core.dll
-C:\git\CommandQueueTest\Publisher\src\Shared\bin\Debug\NServiceBus.Core.pdb
-C:\git\CommandQueueTest\Publisher\src\Shared\bin\Debug\NServiceBus.Core.xml
-C:\git\CommandQueueTest\Publisher\src\Shared\obj\Debug\Shared.csprojResolveAssemblyReference.cache
-C:\git\CommandQueueTest\Publisher\src\Shared\obj\Debug\Shared.csproj.CoreCompileInputs.cache
-C:\git\CommandQueueTest\Publisher\src\Shared\obj\Debug\Shared.dll
-C:\git\CommandQueueTest\Publisher\src\Shared\obj\Debug\Shared.pdb
