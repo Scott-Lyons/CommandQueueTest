@@ -1,25 +1,26 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using System.Configuration;
+using System.Data.SqlClient;
 using NServiceBus;
 using NServiceBus.Features;
-using NServiceBus.Persistence.Legacy;
+using NServiceBus.Persistence.Sql;
 
 namespace Subscriber
 {
     class Program
     {
-        static void Main(string[] args)
+        static void Main()
         {
             Console.Title = "Subscriber.Example";
             var endpointConfiguration = new EndpointConfiguration("Subscriber.Example");
-            endpointConfiguration.UsePersistence<MsmqPersistence>();
-            var transport = endpointConfiguration.UseTransport<MsmqTransport>();
-            endpointConfiguration.DisableFeature<TimeoutManager>();
-            var routing = transport.Routing();
+            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
+            persistence.SqlVariant(SqlVariant.MsSqlServer);
+            persistence.ConnectionBuilder(() => new SqlConnection(ConfigurationManager
+                .ConnectionStrings["NServiceBusSubscriber"].ConnectionString));
 
+            endpointConfiguration.UseTransport<RabbitMQTransport>();
+            endpointConfiguration.DisableFeature<TimeoutManager>();
+            
             endpointConfiguration.SendFailedMessagesTo("error");
             endpointConfiguration.EnableInstallers();
 

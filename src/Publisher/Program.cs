@@ -1,8 +1,10 @@
 ﻿using System;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.Threading.Tasks;
 using NServiceBus;
 using NServiceBus.Features;
-using NServiceBus.Persistence.Legacy;
+using NServiceBus.Persistence.Sql;
 using Shared;
 
 namespace Publisher
@@ -13,8 +15,13 @@ namespace Publisher
         {
             Console.Title = "Publisher.Example";
             var endpointConfiguration = new EndpointConfiguration("Publisher.Example");
-            endpointConfiguration.UsePersistence<MsmqPersistence>();
-            var routing = endpointConfiguration.UseTransport<MsmqTransport>().Routing();
+
+            var persistence = endpointConfiguration.UsePersistence<SqlPersistence>();
+            persistence.SqlVariant(SqlVariant.MsSqlServer);
+            persistence.ConnectionBuilder(() => new SqlConnection(ConfigurationManager
+                .ConnectionStrings["NServiceBusPublisher"].ConnectionString));
+
+            var routing = endpointConfiguration.UseTransport<RabbitMQTransport>().Routing();
             routing.RouteToEndpoint(typeof(FileScan), "Subscriber.Example");
 
             endpointConfiguration.SendFailedMessagesTo("error");
@@ -36,10 +43,10 @@ namespace Publisher
 
             while (true)
             {
-                var key = Console.ReadKey();
+                var key = Console.ReadKey().Key;
                 Console.WriteLine();
                 
-                if (key.Key == ConsoleKey.D1)
+                if (key == ConsoleKey.D1 || key == ConsoleKey.NumPad1)
                 {
                     var fileScan = new FileScan
                     {
