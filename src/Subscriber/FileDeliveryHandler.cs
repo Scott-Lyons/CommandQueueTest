@@ -3,11 +3,11 @@ using Shared;
 
 namespace Subscriber
 {
-    public class FileDeliveryHandler : IMessageHandler<FileDelivery>
+    public static class FileDeliveryHandler
     {
-        public void Handle(FileDelivery message)
+        public static void Handle(FileDelivery message)
         {
-            Console.Write("Message Delivered");
+            Console.WriteLine("Message Delivered");
         }
     }
 }

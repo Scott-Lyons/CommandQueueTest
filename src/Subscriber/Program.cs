@@ -1,8 +1,10 @@
 ﻿using System;
 using System.IO;
+using System.Reflection;
+using EasyNetQ;
+using EasyNetQ.AutoSubscribe;
 using Microsoft.Extensions.Configuration;
-using RabbitMQ.Client;
-using RabbitMQ.Client.Framing.Impl;
+using Shared;
 
 namespace Subscriber
 {
@@ -10,26 +12,19 @@ namespace Subscriber
     {
         public static IConfigurationRoot Configuration;
 
-        static void Main(string[] args)
+        static void Main()
         {
             Configuration = new ConfigurationBuilder()
                 .SetBasePath(Directory.GetCurrentDirectory())
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var host = Configuration["host"];
-
-            var factory = new ConnectionFactory { HostName = host };
-            using (var connection = factory.CreateConnection())
+            using (var bus = RabbitHutch.CreateBus("host=localhost"))
             {
-                using (var channel = connection.CreateModel())
-                {
-                    var queueProcessor = new QueueProcessor(channel);
-                    queueProcessor.Start();
-
-                    Console.WriteLine("Press any key to exit");
-                    Console.ReadLine();
-                }
+                bus.Subscribe<FileScan>("Test", FileScanHandler.Handle);
+                bus.Subscribe<FileDelivery>("Test", FileDeliveryHandler.Handle);
+                
+                Console.ReadLine();
             }
         }
     }
