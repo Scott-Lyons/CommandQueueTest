@@ -1,17 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
+using EasyNetQ.AutoSubscribe;
 using Shared;
 
 namespace Subscriber
 {
-    public static class FileScanHandler
+    public class FileScanHandler : IConsumeAsync<FileScan>
     {
-        public static void Handle(FileScan message)
+        public async Task Consume(FileScan message)
         {
             Console.WriteLine($"Received file {message.Id} with name of {message.FileName}");
 
-            //System.Threading.Thread.Sleep(5000);
-
-            new Sender().Send(new FileDelivery { FileName = message.FileName, Id = message.Id });
+            await new Sender().Send(new FileDelivery { FileName = message.FileName, Id = message.Id });
         }
     }
 }

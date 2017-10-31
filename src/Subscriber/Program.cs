@@ -19,11 +19,14 @@ namespace Subscriber
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            using (var bus = RabbitHutch.CreateBus("host=localhost"))
+            using (var bus = RabbitHutch.CreateBus("host=localhost;timeout=0"))
             {
-                bus.Subscribe<FileScan>("Test", FileScanHandler.Handle);
-                bus.Subscribe<FileDelivery>("Test", FileDeliveryHandler.Handle);
-                
+                var autoSubscriber = new AutoSubscriber(bus, "Bob")
+                {
+                    GenerateSubscriptionId = c => "Test1234"
+                };
+                autoSubscriber.SubscribeAsync(Assembly.GetCallingAssembly());
+               
                 Console.ReadLine();
             }
         }

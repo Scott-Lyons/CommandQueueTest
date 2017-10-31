@@ -1,14 +1,15 @@
-﻿using EasyNetQ;
+﻿using System.Threading.Tasks;
+using EasyNetQ;
 
 namespace Shared
 {
     public class Sender
     {
-        public void Send<T>(T message) where T : Message
+        public async Task Send<T>(T message) where T : Message
         {
             using (var bus = RabbitHutch.CreateBus("host=localhost"))
             {
-                bus.Publish(message);
+                await bus.PublishAsync(message);
             }
         }
     }

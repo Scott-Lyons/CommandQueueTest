@@ -1,6 +1,6 @@
 ﻿namespace Shared
 {
-    public class Message
+    public abstract class Message
     {
     }
 }
