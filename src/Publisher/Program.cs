@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using Shared;
 
@@ -33,11 +34,12 @@ namespace Publisher
                 {
                     var message = new FileScan
                     {
+                        JourneyId = Guid.NewGuid(),
                         Id = Guid.NewGuid(),
                         FileName = "TestFile"
                     };
 
-                    new Sender().Send(message);
+                    new Sender().Send(message).ConfigureAwait(false);
                 }
                 else
                 {

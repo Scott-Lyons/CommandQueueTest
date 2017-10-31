@@ -11,7 +11,12 @@ namespace Subscriber
         {
             Console.WriteLine($"Received file {message.Id} with name of {message.FileName}");
 
-            await new Sender().Send(new FileDelivery { FileName = message.FileName, Id = message.Id });
+            await new Sender().Send(new FileDelivery
+            {
+                FileName = message.FileName,
+                Id = message.Id,
+                JourneyId = message.JourneyId
+            });
         }
     }
 }
