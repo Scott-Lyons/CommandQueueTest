@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using System;
+using System.Text;
 using Newtonsoft.Json;
 using RabbitMQ.Client;
 
@@ -13,13 +14,12 @@ namespace Shared
             {
                 using (var model = connection.CreateModel())
                 {
-
                     var settings = new JsonSerializerSettings {TypeNameHandling = TypeNameHandling.All};
                     var json = JsonConvert.SerializeObject(message, settings);
                     var body = Encoding.UTF8.GetBytes(json);
 
-                    var exchange = "";
-                    var routingKey = "SubscriberRabbitMQTest";
+                    var exchange = "test_exchange";
+                    var routingKey = "";
 
                     model.BasicPublish(exchange, routingKey, null, body);
                 }

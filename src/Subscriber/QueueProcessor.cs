@@ -13,7 +13,8 @@ namespace Subscriber
         public void Start()
         {
             Model.QueueDeclare("SubscriberRabbitMQTest", true, false, false, null);
-            
+            Model.QueueBind("SubscriberRabbitMQTest", "test_exchange", string.Empty);
+
             Received += (model, ea) =>
             {
                 var body = ea.Body;

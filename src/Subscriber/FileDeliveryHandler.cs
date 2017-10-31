@@ -7,7 +7,7 @@ namespace Subscriber
     {
         public void Handle(FileDelivery message)
         {
-            Console.Write("Message Delivered");
+            Console.WriteLine("Message Delivered");
         }
     }
 }
