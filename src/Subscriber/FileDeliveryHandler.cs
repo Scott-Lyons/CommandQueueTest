@@ -1,13 +1,17 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Shared;
 
 namespace Subscriber
 {
     public class FileDeliveryHandler : IMessageHandler<FileDelivery>
     {
-        public void Handle(FileDelivery message)
+        public async Task Handle(FileDelivery message)
         {
-            Console.WriteLine("Message Delivered");
+            await Task.Run(() =>
+            {
+                Console.WriteLine("Message Delivered");
+            });
         }
     }
 }

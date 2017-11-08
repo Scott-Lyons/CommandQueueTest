@@ -33,7 +33,7 @@ namespace Subscriber
             switch (message)
             {
                 case FileScan fs:
-                    new FileScanHandler().Handle(fs);
+                    new FileScanHandler().Handle(fs).ConfigureAwait(false);
                     break;
                 case FileDelivery fd:
                     new FileDeliveryHandler().Handle(fd);

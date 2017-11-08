@@ -6,5 +6,6 @@ namespace Shared
     {
         public Guid Id { get; set; }
         public string FileName { get; set; }
+        public int SleepTime { get; set; }
     }
 }

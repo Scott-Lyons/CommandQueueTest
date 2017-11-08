@@ -24,6 +24,8 @@ namespace Publisher
             Console.WriteLine("Press '1' to publish the file scan");
             Console.WriteLine("Press any other key to exit");
 
+            var random = new Random();
+
             while (true)
             {
                 var key = Console.ReadKey().Key;
@@ -34,7 +36,8 @@ namespace Publisher
                     var message = new FileScan
                     {
                         Id = Guid.NewGuid(),
-                        FileName = "TestFile"
+                        FileName = "TestFile",
+                        SleepTime = random.Next(0, 10) * 1000
                     };
 
                     new Sender().Send(message);

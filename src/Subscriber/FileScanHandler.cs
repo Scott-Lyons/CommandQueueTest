@@ -1,15 +1,23 @@
 ﻿using System;
+using System.Threading;
+using System.Threading.Tasks;
 using Shared;
 
 namespace Subscriber
 {
     public class FileScanHandler : IMessageHandler<FileScan>
     {
-        public void Handle(FileScan message)
+        public async Task Handle(FileScan message)
         {
-            Console.WriteLine($"Received file {message.Id} with name of {message.FileName}");
+            await Task.Run(() =>
+            {
+                Console.WriteLine(
+                    $"Received file {message.Id} with name of {message.FileName} and slept for {message.SleepTime} milliseconds");
 
-            new Sender().Send(new FileDelivery {FileName = message.FileName, Id = message.Id});
+                Thread.Sleep(message.SleepTime);
+
+                new Sender().Send(new FileDelivery {FileName = message.FileName, Id = message.Id});
+            });
         }
     }
 }
